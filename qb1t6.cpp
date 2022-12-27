@@ -10,9 +10,6 @@ QByteArray intToTrits(const qint8& value) {
     int      sign          = (value > 0) - (value < 0);
     quint8 absoluteValue = value * sign;
 
-
-    static const double log3e = 0.91023922662683739361;
-
     int i=0;
     while (absoluteValue > 0) {
       int8_t remainder = absoluteValue % 3;
