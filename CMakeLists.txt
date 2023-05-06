@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+
 include(local_conf.cmake OPTIONAL)
 project(Qtb1t6 VERSION 0.1 DESCRIPTION "IOTA-QT b1t6 encoding " LANGUAGES CXX)
-
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -16,10 +16,10 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
 add_library(qb1t6 include/encoding/qb1t6.hpp qb1t6.cpp)
 
-find_package(Qt6 REQUIRED COMPONENTS Core)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindQt.cmake)
+
 target_link_libraries(qb1t6 PUBLIC  Qt6::Core )
 
 target_include_directories(qb1t6 PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
