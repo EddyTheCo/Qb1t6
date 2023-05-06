@@ -24,7 +24,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ runner.temp }}/build
-        run: cmake --build . --parallel    
+        run: cmake --build .     
       - name: Install
         working-directory: ${{ runner.temp }}/build
         run: cmake --install . 
