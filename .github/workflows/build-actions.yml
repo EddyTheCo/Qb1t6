@@ -4,39 +4,47 @@ on:
   push:
     branches:
       - 'develop'
-
+    tags:
+    - '*'
 jobs:
-  build-ubuntu:
-    runs-on: ubuntu-latest
+  build-release:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        sharedLib: [on,off]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v3
         with:
           ref: 'develop'
-      - name: Install Requirements
-        run: sudo apt-get install -y build-essential libgl1-mesa-dev
+
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }} 
+        name: Install Requirements
+        run: sudo apt-get install -y build-essential 
       
       - name: Create build directory
-        run:  mkdir ${{ runner.temp }}/build
+        run:  cmake -E make_directory ${{ runner.temp }}/build
 
       - name: Configure
         working-directory: ${{ runner.temp }}/build
-        run: cmake -DCMAKE_BUILD_TYPE="Debug" -DCMAKE_INSTALL_PREFIX="${{ runner.temp }}/install" -DBUILD_SHARED_LIBS=OFF ${{ github.workspace }}
+        run: cmake -DCMAKE_BUILD_TYPE="release" -DANDROID=OFF -DWASM=OFF -DCMAKE_INSTALL_PREFIX="${{ runner.temp }}/install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib }} ${{ github.workspace }}
 
       - name: Build
         working-directory: ${{ runner.temp }}/build
-        run: cmake --build .     
+        run: cmake --build .    
+
       - name: Install
         working-directory: ${{ runner.temp }}/build
-        run: cmake --install . 
+        run: cmake --install .
 
-      - name: Zip build
+      - name: Tar Release
         working-directory: ${{ runner.temp }}
-        run:  |
-              7z a ubuntu-debug-static.zip install/* -r
+        run:  cmake -E tar cvzf ${{ matrix.os }}-shared-${{ matrix.sharedLib }}.zip ${{ runner.temp }}/install/*
 
-      - name: Save build artifact
-        uses: actions/upload-artifact@master
+      - uses: ncipollo/release-action@v1
         with:
-          name: ubuntu-debug-static.zip
-          path: ${{ runner.temp }}/install/ubuntu-debug-static.zip  
+          artifacts: ${{ runner.temp }}/${{ matrix.os }}-shared-${{ matrix.sharedLib }}.zip 
 
