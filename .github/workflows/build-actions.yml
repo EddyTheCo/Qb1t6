@@ -1,0 +1,37 @@
+name: build-actions
+run-name: ${{ github.actor }} pushed and is building
+on: 
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: 'develop'
+      - name: Install Requirements
+        run: sudo apt-get install -y build-essential libgl1-mesa-dev
+      
+      - name: Create build directory
+        run:  mkdir ${{ runner.temp }}\build
+
+      - name: Build
+        working-directory: ${{ runner.temp }}\build
+        run: cmake -DCMAKE_BUILD_TYPE="Debug" -DCMAKE_INSTALL_PREFIX="${{ runner.temp }}\install" -DBUILD_SHARED_LIBS=OFF ${{ env.SOURCE_DIR }}
+      - run: cmake --build . --parallel    
+        run: cmake --install . 
+
+      - name: (9) Zip build
+        working-directory: ${{ runner.temp }}
+        run:  |
+              7z a ubuntu-debug-static.zip install\* -r
+
+      - name: (10) Save build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ubuntu-debug-static.zip
+          path: ${{ runner.temp }}\install\ubuntu-debug-static.zip  
+
