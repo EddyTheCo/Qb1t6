@@ -18,19 +18,23 @@ jobs:
       - name: Create build directory
         run:  mkdir ${{ runner.temp }}/build
 
+      - name: Configure
+        working-directory: ${{ runner.temp }}/build
+        run: cmake -DCMAKE_BUILD_TYPE="Debug" -DCMAKE_INSTALL_PREFIX="${{ runner.temp }}/install" -DBUILD_SHARED_LIBS=OFF ${{ github.workspace }}
+
       - name: Build
         working-directory: ${{ runner.temp }}/build
-        run: 
-          cmake -DCMAKE_BUILD_TYPE="Debug" -DCMAKE_INSTALL_PREFIX="${{ runner.temp }}/install" -DBUILD_SHARED_LIBS=OFF ${{ github.workspace }}
-          cmake --build . --parallel    
-          cmake --install . 
+        run: cmake --build . --parallel    
+      - name: Install
+        working-directory: ${{ runner.temp }}/build
+        run: cmake --install . 
 
-      - name: (9) Zip build
+      - name: Zip build
         working-directory: ${{ runner.temp }}
         run:  |
               7z a ubuntu-debug-static.zip install/* -r
 
-      - name: (10) Save build artifact
+      - name: Save build artifact
         uses: actions/upload-artifact@master
         with:
           name: ubuntu-debug-static.zip
