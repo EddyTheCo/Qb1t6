@@ -37,8 +37,9 @@ jobs:
           ninja --version
           cmake --version
           gcc --version
+          
       - name: Install dependencies on macos
-        if: startsWith(matrix.config.os, 'macos')
+        if: startsWith(matrix.os, 'macos')
         run: |
           brew install cmake ninja
           ninja --version
