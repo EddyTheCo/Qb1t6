@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 include(local_conf.cmake OPTIONAL)
-project(Qtb1t6 VERSION 0.1 DESCRIPTION "IOTA-QT b1t6 encoding " LANGUAGES CXX)
+
+include(cmake/VersionFromGit.cmake)
+
+version_from_git(
+  LOG       ON
+  TIMESTAMP "%Y%m%d%H%M%S"
+)
+
+project(Qtb1t6 VERSION ${VERSION} DESCRIPTION "IOTA-QT b1t6 encoding " LANGUAGES CXX)
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -18,7 +26,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(qb1t6 include/encoding/qb1t6.hpp qb1t6.cpp)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindQt.cmake)
+include(cmake/FindQt.cmake)
 
 target_link_libraries(qb1t6 PUBLIC  Qt6::Core )
 
@@ -42,8 +50,8 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/qb1t6ConfigVersion.cmake"
-	VERSION "0.1.1.0"
-	COMPATIBILITY AnyNewerVersion
+	VERSION ${VERSION}
+	COMPATIBILITY SameMajorVersion
 	)
 install(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/qb1t6Config.cmake
@@ -56,7 +64,9 @@ export(EXPORT qb1t6Targets
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
+    include(CPack)
+    set(CPACK_PACKAGE_FILE_NAME ${PROJECT_NAME}-v${SEMVER})
 endif()
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-    add_subdirectory(tests)
+    add_subdirectory(tests EXCLUDE_FROM_ALL)
 endif()
