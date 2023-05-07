@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 
     binary=QByteArray::fromHex("0001027e7f8081fdfeff");
     ternary=get_Trytes_from_Bytes(binary);
-    assert(ternary==QByteArray("99A9B9RESEGVHVX9Y9ZZ"));
+    assert(ternary==QByteArray("99A9B9RESEGVHVX9Y9Z9"));
 
 
     binary=QByteArray::fromHex("9ba06c78552776a596dfe360cc2b5bf644c0f9d343a10e2e71debecd30730d03");
