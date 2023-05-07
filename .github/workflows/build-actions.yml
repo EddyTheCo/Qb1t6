@@ -28,6 +28,7 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
+      - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.os, 'ubuntu')
