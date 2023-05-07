@@ -24,32 +24,33 @@ jobs:
         run: sudo apt-get install -y build-essential ninja-build 
       
       - name: Create build directory
-        run:  cmake -E make_directory build
-
+        run:  cmake -E make_directory ${{RUNNER_TEMP}}/build
+      - run: git describe --tags
       - name: Configure
-        working-directory: build
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="../install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib }} ../ 
+        working-directory: ${{RUNNER_TEMP}}/build
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="${{RUNNER_TEMP}}/install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib }} ../ 
       - name: Build
-        working-directory: build
+        working-directory: ${{RUNNER_TEMP}}/build
         run: cmake --build .   
 
       - name: Test
-        working-directory: build
+        working-directory: ${{RUNNER_TEMP}}/build 
         run: ninja test
 
       - name: Install
-        working-directory: build
+        working-directory: ${{RUNNER_TEMP}}/build
         run: cmake --install .
 
       - name: Binary Package
-        working-directory: build
+        working-directory: ${{RUNNER_TEMP}}/build 
         run:  cpack -B packages --config CPackConfig.cmake
+
       - name: Source Package
-        working-directory: build
+        working-directory: ${{RUNNER_TEMP}}/build
         run: cpack -B packages --config CPackSourceConfig.cmake
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/packages/*.*
+          files: ${{RUNNER_TEMP}}/build/packages/*.*
 
