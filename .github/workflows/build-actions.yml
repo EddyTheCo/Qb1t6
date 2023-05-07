@@ -44,17 +44,14 @@ jobs:
 
       - name: Install
         working-directory: ${{ runner.temp }}/build
-        if: startsWith(github.ref, 'refs/tags/')
         run: cmake --install .
 
       - name: Binary Package
         working-directory: ${{ runner.temp }}/build
-        if: startsWith(github.ref, 'refs/tags/')
         run:  cpack -B packages --config CPackConfig.cmake
 
       - name: Source Package
         working-directory: ${{ runner.temp }}/build
-        if: startsWith(github.ref, 'refs/tags/')
         run: cpack -B packages --config CPackSourceConfig.cmake
 
       - name: Release
