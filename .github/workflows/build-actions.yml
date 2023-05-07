@@ -81,7 +81,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        name: ${{ github.ref }}_${{ matrix.os }}_${{ matrix.sharedLib.str }}  
         with:
           files: ${{ runner.temp }}/build/packages/*.*
+          name: ${{ github.ref }}_${{ matrix.os }}_${{ matrix.sharedLib.str }}  
 
