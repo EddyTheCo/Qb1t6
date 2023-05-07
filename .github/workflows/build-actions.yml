@@ -50,29 +50,32 @@ jobs:
         run:  cmake -E make_directory ${{runner.temp}}/build
 
 
-      - name: Configure
-        working-directory: ${{ runner.temp }}/build
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="../install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib.set }} ${{ github.workspace }}
+          #- name: Configure
+          #       working-directory: ${{ runner.temp }}/build
+          #        run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="../install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib.set }} ${{ github.workspace }}
 
-      - name: Build
-        working-directory: ${{ runner.temp }}/build
-        run: cmake --build .   
+          #      - name: Build
+          #        working-directory: ${{ runner.temp }}/build
+          #        run: cmake --build .   
 
-      - name: Test
-        working-directory: ${{ runner.temp }}/build
-        run: ninja test
+          #      - name: Test
+          #        working-directory: ${{ runner.temp }}/build
+          #        run: ninja test
 
-      - name: Install
-        working-directory: ${{ runner.temp }}/build
-        run: cmake --install .
+          #      - name: Install
+          #        working-directory: ${{ runner.temp }}/build
+          #        run: cmake --install .
 
-      - name: Binary Package
+          #      - name: Binary Package
+          #        working-directory: ${{ runner.temp }}/build
+          #        run:  cpack -B package --config CPackConfig.cmake
+      - name: Create build directory
         working-directory: ${{ runner.temp }}/build
-        run:  cpack -B packages_${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }} --config CPackConfig.cmake
+        run:  cmake -E make_directory package
       
       - name: Tar artifact
         working-directory: ${{ runner.temp }}/build
-        run: cmake -E tar cvzf ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz packages_${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}/* 
+        run: cmake -E tar cvzf ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz package 
 
       - uses: actions/upload-artifact@v3
         with:
