@@ -22,18 +22,27 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Get CMake
-        uses: symbitic/install-cmake@master      
-       
-      - name: Get Python
-        uses: actions/setup-python@v4    
+      - name: Install dependencies on windows
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          choco install ninja cmake
+          ninja --version
+          cmake --version
 
-          # - name: Get msvc-dev-cmd
-          #uses: ilammy/msvc-dev-cmd@v1
-      
-          #- name: Set up GCC
-          #if: startsWith(matrix.os, 'ubuntu')
-          #uses: egor-tensin/setup-gcc@v1 
+      - name: Install dependencies on ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build cmake
+          ninja --version
+          cmake --version
+          gcc --version
+      - name: Install dependencies on macos
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+          brew install cmake ninja
+          ninja --version
+          cmake --version
 
       - name: Create build directory
         run:  cmake -E make_directory ${{runner.temp}}/build
