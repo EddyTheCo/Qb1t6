@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 include(local_conf.cmake OPTIONAL)
-
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 include(cmake/VersionFromGit.cmake)
 
 version_from_git(
