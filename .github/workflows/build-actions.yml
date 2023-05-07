@@ -14,11 +14,9 @@ jobs:
         sharedLib: [on]
     runs-on: ${{ matrix.os }}
 
-    defaults:
-      run:
-        working-directory: ${{ runner.temp }}
 
     steps:
+          
       - uses: actions/checkout@v3
         with:
           ref: 'develop'
@@ -33,25 +31,31 @@ jobs:
       - run: git describe --tags
 
       - name: Configure
+        working-directory: ${{ runner.temp }}/build
         run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="${{RUNNER_TEMP}}/install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib }} ../ 
 
       - name: Build
+        working-directory: ${{ runner.temp }}/build
         run: cmake --build .   
 
       - name: Test
+        working-directory: ${{ runner.temp }}/build
         run: ninja test
 
       - name: Install
+        working-directory: ${{ runner.temp }}/build
         run: cmake --install .
 
       - name: Binary Package
+        working-directory: ${{ runner.temp }}/build
         run:  cpack -B packages --config CPackConfig.cmake
 
       - name: Source Package
+        working-directory: ${{ runner.temp }}/build
         run: cpack -B packages --config CPackSourceConfig.cmake
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{RUNNER_TEMP}}/build/packages/*.*
+          files: ${{ runner.temp }}/build/packages/*.*
 
