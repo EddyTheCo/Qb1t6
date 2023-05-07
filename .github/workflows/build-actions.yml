@@ -76,8 +76,8 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-        name: Release for ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}
-        path: ${{ runner.temp }}/build/${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz 
+          name: Release for ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}
+          path: ${{ runner.temp }}/build/${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz 
 
 
 
