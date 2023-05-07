@@ -14,6 +14,10 @@ jobs:
         sharedLib: [on]
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        working-directory: ${{runner.temp}}/build
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -24,29 +28,26 @@ jobs:
         run: sudo apt-get install -y build-essential ninja-build 
       
       - name: Create build directory
-        run:  cmake -E make_directory ${{RUNNER_TEMP}}/build
+        run:  cmake -E make_directory ${{runner.temp}}/build
+
       - run: git describe --tags
+
       - name: Configure
-        working-directory: ${{RUNNER_TEMP}}/build
         run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="${{RUNNER_TEMP}}/install" -DBUILD_SHARED_LIBS=${{ matrix.sharedLib }} ../ 
+
       - name: Build
-        working-directory: ${{RUNNER_TEMP}}/build
         run: cmake --build .   
 
       - name: Test
-        working-directory: ${{RUNNER_TEMP}}/build 
         run: ninja test
 
       - name: Install
-        working-directory: ${{RUNNER_TEMP}}/build
         run: cmake --install .
 
       - name: Binary Package
-        working-directory: ${{RUNNER_TEMP}}/build 
         run:  cpack -B packages --config CPackConfig.cmake
 
       - name: Source Package
-        working-directory: ${{RUNNER_TEMP}}/build
         run: cpack -B packages --config CPackSourceConfig.cmake
 
       - name: Release
