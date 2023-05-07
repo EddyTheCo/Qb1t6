@@ -72,7 +72,7 @@ jobs:
       
       - name: Tar artifact
         working-directory: ${{ runner.temp }}/build
-        run: cmake -E tar cvzf ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz package/*.* 
+        run: cmake -E tar cvzf ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}.tar.gz ---exclude='_CPack_Packages' package/ 
 
       - uses: actions/upload-artifact@v3
         with:
