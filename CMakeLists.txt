@@ -24,9 +24,11 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(Qt6 REQUIRED COMPONENTS Core)
+qt_standard_project_setup()
+
 add_library(qb1t6 include/encoding/qb1t6.hpp qb1t6.cpp)
 
-include(cmake/FindQt.cmake)
 
 target_link_libraries(qb1t6 PUBLIC  Qt6::Core )
 
