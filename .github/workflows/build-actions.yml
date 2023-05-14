@@ -2,6 +2,7 @@ name: push-build-release
 run-name: ${{ github.actor }} pushed 
 on: 
   push:
+    branches: [main,develop]
     tags:
       - 'v*'
   pull_request:
@@ -50,7 +51,6 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.5.0'
-          archives: 'qtbase'
   
 
       - name: Create build directory
@@ -106,5 +106,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ./artifacts/*/*
-      
 
