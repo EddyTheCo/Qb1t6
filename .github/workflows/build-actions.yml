@@ -2,7 +2,7 @@ name: push-build-release
 run-name: ${{ github.actor }} pushed 
 on: 
   push:
-    branches: [main,develop]
+    branches: [main,develop,testing]
     tags:
       - 'v*'
   pull_request:
@@ -48,9 +48,11 @@ jobs:
           cmake --version
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@master
         with:
           version: '6.5.0'
+          archives: 'qtbase'
+
   
 
       - name: Create build directory
