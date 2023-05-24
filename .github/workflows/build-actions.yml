@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest,windows-latest]
-        sharedLib: [off]
+        sharedLib: [on,off]
         include:
         - build_docs: off
         - build_docs: on
