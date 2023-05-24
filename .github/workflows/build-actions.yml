@@ -89,10 +89,10 @@ jobs:
           name: ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}
           path: ${{ runner.temp }}/build/package/* 
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-pages-artifact@v1.0.8
+        if: matrix.build_docs
         with:
-          name: 'github-pages'
-          path: doc/html/* 
+          path: doc/html/ 
 
   release:
     needs: build_test_package
@@ -116,10 +116,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ./artifacts/*/*
+
   deploy_page:
-    runs-on: ubuntu-latest
-    # Add a dependency to the build job
     needs: build_test_package
+    runs-on: ubuntu-latest
 
     permissions:
       pages: write      
