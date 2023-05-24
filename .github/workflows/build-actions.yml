@@ -88,6 +88,11 @@ jobs:
         with:
           name: ${{ matrix.os }}_sharedlib_${{ matrix.sharedLib }}
           path: ${{ runner.temp }}/build/package/* 
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: 'github-pages'
+          path: doc/html/* 
 
   release:
     needs: build_test_package
@@ -111,4 +116,21 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ./artifacts/*/*
+  deploy_page:
+    runs-on: ubuntu-latest
+    # Add a dependency to the build job
+    needs: build_test_package
 
+    permissions:
+      pages: write      
+      id-token: write  
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2 # or the latest "vX.X.X" version tag for this action
