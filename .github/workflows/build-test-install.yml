@@ -1,6 +1,8 @@
 name: push-build-release
 run-name: ${{ github.actor }} ${{ github.event_name }} to ${{ github.base_ref }} 
 on: 
+  workflow_call:
+
   push:
     tags:
       - 'v*'
