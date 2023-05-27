@@ -16,6 +16,6 @@ jobs:
         sharedLib: [on,off]
 
     uses: EddyTheCo/Common/.github/workflows/build-test-install.yml@develop
-      with:
+    with:
       os: ${{ matrix.os }}
       sharedLib: ${{ matrix.sharedLib }}
