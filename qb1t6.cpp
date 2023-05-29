@@ -1,18 +1,6 @@
 #include"encoding/qb1t6.hpp"
 namespace qencoding{
-	/*! 
-	 * \brief Binary To Ternary Encoding following this
-	 * [TIP](https://github.com/iotaledger/tips/blob/main/tips/TIP-0005/tip-0005.md)
-	 *
-	 */
 	namespace qb1t6{
-		/*!
-		 *
-		 * \fn QByteArray intToTrits(const qint8& value)  
-		 * Converts a signed integer value into its corresponding balanced ternary representation in little-endian order 
-		 *
-		 */
-
 		QByteArray intToTrits(const qint8& value) {
 
 
@@ -36,12 +24,6 @@ namespace qencoding{
 
 			return trits;
 		}
-		/*!
-		 *
-		 * \fn QByteArray get_Trits_from_Bytes(const QByteArray& bytes)  
-		 * Converts a QByteArray value into its corresponding balanced ternary representation  
-		 *
-		 */
 
 		QByteArray get_Trits_from_Bytes(const QByteArray& bytes)
 		{
@@ -54,12 +36,6 @@ namespace qencoding{
 			return trits;
 
 		}
-		/*!
-		 *
-		 * \fn QByteArray get_Trytes_from_Trits(const QByteArray& trits)  
-		 * Converts a QByteArray of trits to the corresponding tryte alphabet string 
-		 *
-		 */
 		QByteArray get_Trytes_from_Trits(const QByteArray& trits)
 		{
 			auto trytes=QByteArray();
@@ -76,12 +52,6 @@ namespace qencoding{
 			}
 			return trytes;
 		}
-		/*!
-		 *
-		 * \fn QByteArray get_Trytes_from_Bytes(const QByteArray& bytes)  
-		 * Converts a QByteArray  to the corresponding tryte alphabet string 
-		 *
-		 */
 		QByteArray get_Trytes_from_Bytes(const QByteArray& bytes)
 		{
 
