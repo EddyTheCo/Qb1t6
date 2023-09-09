@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
-
 
 foreach(app  tip5)
 add_executable(${app} ${app}.cpp)
