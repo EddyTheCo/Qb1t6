@@ -31,37 +31,36 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+include(GNUInstallDirs)
 
 find_package(Qt6 COMPONENTS Core)
 
 if (Qt6_FOUND)
-qt_standard_project_setup()
+	qt_standard_project_setup()
 endif(Qt6_FOUND)
 
 add_library(qb1t6 include/encoding/qb1t6.hpp qb1t6.cpp)
 
 
 if (Qt6_FOUND)
-target_link_libraries(qb1t6 PUBLIC  Qt6::Core )
+	target_link_libraries(qb1t6 PUBLIC  Qt6::Core )
 endif(Qt6_FOUND)
 
 target_include_directories(qb1t6 PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-	"$<INSTALL_INTERFACE:include>")
+	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
-install(TARGETS qb1t6 EXPORT qb1t6Targets DESTINATION lib)
-install(DIRECTORY include/ DESTINATION include/)
+install(TARGETS qb1t6 EXPORT qb1t6Targets DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT qb1t6Targets
 	FILE qb1t6Targets.cmake
-	DESTINATION lib/cmake/qb1t6
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qb1t6
 	)
 include(CMakePackageConfigHelpers)
 # generate the config file that is includes the exports
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/qb1t6Config.cmake"
-	INSTALL_DESTINATION "lib/cmake/qb1t6"
-	NO_SET_AND_CHECK_MACRO
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO
+	INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/qb1t6"
 	)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/qb1t6ConfigVersion.cmake"
@@ -71,12 +70,13 @@ write_basic_package_version_file(
 install(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/qb1t6Config.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/qb1t6ConfigVersion.cmake
-	DESTINATION lib/cmake/qb1t6
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qb1t6
 	)
 export(EXPORT qb1t6Targets
 	FILE "${CMAKE_CURRENT_BINARY_DIR}/qb1t6Targets.cmake"
 	)
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+	set(CPACK_PACKAGE_CONTACT "estervtech")
 	include(CTest)
 	set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
 	if(NOT BUILD_SHARED_LIBS)
