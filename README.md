@@ -35,7 +35,7 @@ FetchContent_Declare(
 	FIND_PACKAGE_ARGS 0.1 CONFIG  
 	)
 FetchContent_MakeAvailable(Qtb1t6)
-target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> Qtb1t6::Qb1t6)
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> Qtb1t6::qb1t6)
 ```
 
 ## API reference
