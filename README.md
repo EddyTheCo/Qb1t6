@@ -2,6 +2,8 @@
 # Binary To Ternary Encoding
 
 
+[TOC]
+
 This repo implements a library that encodes binary to ternary following this [TIP](https://github.com/iotaledger/tips/blob/main/tips/TIP-0005/tip-0005.md)
 
 ## Installing the library 
@@ -56,4 +58,3 @@ You can open an issue or request a feature.
 You can open a PR to the `develop` branch and the CI/CD will take care of the rest.
 Make sure to acknowledge your work, and ideas when contributing.
 
-[TOC]
