@@ -52,7 +52,9 @@ jobs:
           mv artifacts/docs/html github-pages
           rm -rf artifacts/docs
           mkdir github-pages/packages/
-          mv artifacts/*/_CPack_Packages/* github-pages/packages/ 
+          mv artifacts/*/_CPack_Packages/* ${{runner.temp}}/platforms/
+          for i in ${{runner.temp}}/platforms/*; do mv $i/IFW/*/repository/* $i/; rm -rf $i/IFW $i/TGZ; done;
+          mv ${{runner.temp}}/platforms/* github-pages/packages/ 
           rm -rf artifacts/*/_CPack_Packages
 
       - name: Package github-page
