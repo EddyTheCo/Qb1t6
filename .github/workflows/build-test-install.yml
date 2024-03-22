@@ -17,7 +17,7 @@ jobs:
     with:
       os: ${{ matrix.os }}
       qtVersion: '6.6.0'
-      cmakeArgs: "-DCPACK_PACKAGE_CONTACT=estervtech@gmail.com -DCPACK_PACKAGE_VENDOR=estervtech"  
+      cmakeArgs: "-DCPACK_PACKAGE_CONTACT=estervtech@gmail.com -DREPO_URL=https://eddytheco.github.io/Qb1t6/ -DCPACK_PACKAGE_VENDOR=estervtech"  
   
   build_doxygen:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -30,6 +30,12 @@ jobs:
 
     permissions:
       contents: write
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
           
@@ -40,8 +46,24 @@ jobs:
            path: artifacts
       - name: Display structure of downloaded files
         run: ls -R
-          
+
+      - name: Move repositories to webpage
+        run: |
+          mv ./artifacts/docs github-pages
+          mkdir github-pages/packages/
+          mv .artifacts/*/_CPack_Packages/* github-pages/packages/ 
+          rm -rf .artifacts/*/_CPack_Packages
+
       - name: Releases 
         uses: softprops/action-gh-release@v1
         with:
-          files: ./artifacts/*/*       
+          files: ./artifacts/*/*   
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 'github-pages' 
+          path:  github-pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
