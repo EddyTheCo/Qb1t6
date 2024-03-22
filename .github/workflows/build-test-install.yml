@@ -49,10 +49,11 @@ jobs:
 
       - name: Move repositories to webpage
         run: |
-          mv ./artifacts/docs github-pages
+          mv artifacts/docs/html github-pages
+          rm -rf artifacts/docs
           mkdir github-pages/packages/
-          mv .artifacts/*/_CPack_Packages/* github-pages/packages/ 
-          rm -rf .artifacts/*/_CPack_Packages
+          mv artifacts/*/_CPack_Packages/* github-pages/packages/ 
+          rm -rf artifacts/*/_CPack_Packages
 
       - name: Releases 
         uses: softprops/action-gh-release@v1
