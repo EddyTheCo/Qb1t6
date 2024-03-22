@@ -14,7 +14,7 @@ git clone https://github.com/EddyTheCo/Qb1t6.git
 
 mkdir build
 cd build
-qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF -DUSE_THREADS=ON ../Qb1t6
+qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF  ../Qb1t6
 
 cmake --build . 
 
@@ -22,7 +22,6 @@ cmake --install .
 ```
 where `installDir` is the installation path.
 One can choose to build or not the tests and the documentation with the `BUILD_TESTING` and `BUILD_DOCS` variables.
-The use of multithreading is controlled by the `USE_THREADS` variable.
 
 ### From GitHub releases
 Download the releases from this repo. 
