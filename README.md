@@ -1,6 +1,6 @@
-[TOC]
 
 # Binary To Ternary Encoding
+
 
 This repo implements a library that encodes binary to ternary following this [TIP](https://github.com/iotaledger/tips/blob/main/tips/TIP-0005/tip-0005.md)
 
@@ -12,7 +12,7 @@ git clone https://github.com/EddyTheCo/Qb1t6.git
 
 mkdir build
 cd build
-qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF ../Qb1t6
+qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF -DUSE_THREADS=ON ../Qb1t6
 
 cmake --build . 
 
@@ -20,6 +20,7 @@ cmake --install .
 ```
 where `installDir` is the installation path.
 One can choose to build or not the tests and the documentation with the `BUILD_TESTING` and `BUILD_DOCS` variables.
+The use of multithreading is controlled by the `USE_THREADS` variable.
 
 ### From GitHub releases
 Download the releases from this repo. 
@@ -54,3 +55,5 @@ We appreciate any contribution!
 You can open an issue or request a feature.
 You can open a PR to the `develop` branch and the CI/CD will take care of the rest.
 Make sure to acknowledge your work, and ideas when contributing.
+
+[TOC]
