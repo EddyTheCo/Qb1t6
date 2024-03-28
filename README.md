@@ -33,8 +33,8 @@ include(FetchContent)
 FetchContent_Declare(
 	Qtb1t6	
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-	GIT_TAG v0.1.0 
-	FIND_PACKAGE_ARGS 0.1 CONFIG  
+	GIT_TAG vMAJOR.MINOR.PATCH 
+	FIND_PACKAGE_ARGS MAJOR.MINOR CONFIG  
 	)
 FetchContent_MakeAvailable(Qtb1t6)
 target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> Qtb1t6::qb1t6)
