@@ -63,6 +63,12 @@ jobs:
         run: |
           cmake -E make_directory ${{runner.temp}}/page-packages
           cmake -E tar c ${{runner.temp}}/page-packages/github-pages.tar -- .
+      
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Releases 
         uses: softprops/action-gh-release@v1
