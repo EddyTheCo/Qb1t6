@@ -1,4 +1,5 @@
 name: Auto-Create Develop Branch
+run-name: Recreating develop branch
 
 on:
   pull_request_target:
@@ -11,11 +12,9 @@ jobs:
     if: ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) && (startsWith(github.head_ref, 'develop'))}}
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-          # Step 2: Set up Git
       - name: Set Up Git
         run: |
           git config --global user.name "${{ github.actor }}"
